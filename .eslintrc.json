@@ -1,3 +1,7 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {//only for development purpose
+    "@next/next/no-img-element": "off",//only for development purpose
+    "jsx-a11y/alt-text": "off"//only for development purpose
+  }
 }
