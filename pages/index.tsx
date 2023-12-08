@@ -1,6 +1,7 @@
 import { RandomFox } from "@/components/RandomFox";
+import { log } from "console";
 import { Inter } from "next/font/google";
-import { useState } from "react";
+import { MouseEventHandler, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 const urlApi = "https://randomfox.ca/images";
@@ -24,16 +25,20 @@ function generateUniqueId() {
 }
 export default function Home() {
   // can be string[]
-  const [images, setImages] = useState<Array<ImageType>>([
-    { id: generateUniqueId(), url: `${urlApi}/${randomNumber()}.jpg` },
-    { id: generateUniqueId(), url: `${urlApi}/${randomNumber()}.jpg` },
-    { id: generateUniqueId(), url: `${urlApi}/${randomNumber()}.jpg` },
-    { id: generateUniqueId(), url: `${urlApi}/${randomNumber()}.jpg` },
-  ]);
+  const [images, setImages] = useState<Array<ImageType>>([]);
 
+  const addFox: MouseEventHandler<HTMLButtonElement> = (event) => {
+    const newFox: ImageType = {
+      id: generateUniqueId(),
+      url: `${urlApi}/${randomNumber()}.jpg`,
+    };
+
+    setImages([...images, newFox]);
+  };
   return (
     <main>
       <h1 className="text-center underline font-bold text-3xl">Hello world</h1>
+      <button onClick={addFox}>Add fox</button>
       {images.map((img, index) => (
         <div key={index} className="p-4">
           <RandomFox api={img.url} />
