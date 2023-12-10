@@ -1,10 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { ImgHTMLAttributes, useEffect, useRef, useState } from "react";
 
-type Props = {
-  api: string;
+type LazyImageProps = {
+  src: string;
 };
 
-export const RandomFox = ({ api }: Props): JSX.Element => {
+type ImageNative = ImgHTMLAttributes<HTMLImageElement>;
+
+type Props = LazyImageProps & ImageNative;
+
+export const LazyImage = ({ src, ...imgProps }: Props): JSX.Element => {
   const node = useRef<HTMLImageElement>(null);
   const greyRectangleSVG = `
   <svg xmlns="http://www.w3.org/2000/svg" width="320" height="320">
@@ -16,13 +20,15 @@ export const RandomFox = ({ api }: Props): JSX.Element => {
 
   const base64Encoded = btoa(greyRectangleSVG);
 
-  const [src, setSrc] = useState(`data:image/svg+xml;base64,${base64Encoded}`);
+  const [currentSrc, setCurrentSrc] = useState(
+    `data:image/svg+xml;base64,${base64Encoded}`
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setSrc(api);
+          setCurrentSrc(src);
         }
       });
     });
@@ -32,15 +38,7 @@ export const RandomFox = ({ api }: Props): JSX.Element => {
     }
 
     return () => observer.disconnect();
-  }, [api]);
+  }, [currentSrc]);
 
-  return (
-    <img
-      ref={node}
-      className="rounded-lg"
-      width={320}
-      height={"auto"}
-      src={src}
-    />
-  );
+  return <img ref={node} src={src} {...imgProps} />;
 };

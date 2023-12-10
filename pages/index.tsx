@@ -1,4 +1,4 @@
-import { RandomFox } from "@/components/RandomFox";
+import { LazyImage } from "@/components/RandomFox";
 import { log } from "console";
 import { Inter } from "next/font/google";
 import { MouseEventHandler, useState } from "react";
@@ -35,13 +35,25 @@ export default function Home() {
 
     setImages([...images, newFox]);
   };
+
+  const printMessage = () => {
+    console.log("Clicked");
+  };
+
   return (
     <main>
       <h1 className="text-center underline font-bold text-3xl">Hello world</h1>
       <button onClick={addFox}>Add fox</button>
-      {images.map((img, index) => (
-        <div key={index} className="p-4">
-          <RandomFox api={img.url} />
+      {images.map(({ id, url }) => (
+        <div key={id} className="p-4">
+          <LazyImage
+            src={url}
+            onClick={printMessage}
+            title="Random fox"
+            className="rounded-lg"
+            width={320}
+            height={"auto"}
+          />
         </div>
       ))}
     </main>
