@@ -53,6 +53,7 @@ export default function Home() {
             className="rounded-lg"
             width={320}
             height={"auto"}
+            onLazyLoad={() => console.log("Loaded")}
           />
         </div>
       ))}

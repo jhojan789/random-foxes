@@ -2,13 +2,18 @@ import { ImgHTMLAttributes, useEffect, useRef, useState } from "react";
 
 type LazyImageProps = {
   src: string;
+  onLazyLoad?: (img: HTMLImageElement) => void;
 };
 
 type ImageNative = ImgHTMLAttributes<HTMLImageElement>;
 
 type Props = LazyImageProps & ImageNative;
 
-export const LazyImage = ({ src, ...imgProps }: Props): JSX.Element => {
+export const LazyImage = ({
+  src,
+  onLazyLoad,
+  ...imgProps
+}: Props): JSX.Element => {
   const node = useRef<HTMLImageElement>(null);
   const greyRectangleSVG = `
   <svg xmlns="http://www.w3.org/2000/svg" width="320" height="320">
@@ -28,7 +33,8 @@ export const LazyImage = ({ src, ...imgProps }: Props): JSX.Element => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setCurrentSrc(src);
+          // setCurrentSrc(src);
+          loadImage();
         }
       });
     });
@@ -39,6 +45,23 @@ export const LazyImage = ({ src, ...imgProps }: Props): JSX.Element => {
 
     return () => observer.disconnect();
   }, [currentSrc]);
+
+  // Function to load the actual image
+  const loadImage = () => {
+    const image = new Image();
+    image.src = src;
+
+    image.onload = () => {
+      setCurrentSrc(src);
+      if (onLazyLoad) {
+        onLazyLoad(image);
+      }
+    };
+
+    image.onerror = () => {
+      console.error(`Error loading image: ${src}`);
+    };
+  };
 
   return <img ref={node} src={src} {...imgProps} />;
 };
