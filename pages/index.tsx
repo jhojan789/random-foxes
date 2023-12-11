@@ -1,9 +1,12 @@
 import { LazyImage } from "@/components/RandomFox";
 import { useState, type MouseEventHandler } from "react";
 
-const urlApi = "https://randomfox.ca/images";
-const randomNumber = () => Math.floor(Math.random() * 123) + 1;
+import _ from "lodash";
 
+const urlApi = "https://randomfox.ca/images";
+
+// const randomNumber = () => Math.floor(Math.random() * 123) + 1;
+const randomNumber = () => _.random(1, 123);
 type ImageType = {
   id: string;
   url: string;
