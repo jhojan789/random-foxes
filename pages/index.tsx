@@ -25,10 +25,10 @@ function generateUniqueId() {
 }
 export default function Home() {
   // can be string[]
-  const [images, setImages] = useState<Array<ImageType>>([]);
+  const [images, setImages] = useState<Array<IFoxImageItem>>([]);
 
   const addFox: MouseEventHandler<HTMLButtonElement> = (event) => {
-    const newFox: ImageType = {
+    const newFox: IFoxImageItem = {
       id: generateUniqueId(),
       url: `${urlApi}/${randomNumber()}.jpg`,
     };
