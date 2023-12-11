@@ -34,6 +34,8 @@ export default function Home() {
     };
 
     setImages([...images, newFox]);
+
+    window.plausible("Sign up");
   };
 
   const printMessage = () => {
@@ -41,22 +43,31 @@ export default function Home() {
   };
 
   return (
-    <main>
-      <h1 className="text-center underline font-bold text-3xl">Hello world</h1>
-      <button onClick={addFox}>Add fox</button>
-      {images.map(({ id, url }) => (
-        <div key={id} className="p-4">
-          <LazyImage
-            src={url}
-            onClick={printMessage}
-            title="Random fox"
-            className="rounded-lg"
-            width={320}
-            height={"auto"}
-            onLazyLoad={() => console.log("Loaded")}
-          />
-        </div>
-      ))}
-    </main>
+    <div>
+      <main>
+        <h1 className="text-center underline font-bold text-3xl">
+          Hello world
+        </h1>
+        <button onClick={addFox}>Add fox</button>
+        {images.map(({ id, url }) => (
+          <div key={id} className="p-4">
+            <LazyImage
+              src={url}
+              onClick={printMessage}
+              title="Random fox"
+              className="rounded-lg"
+              width={320}
+              height={"auto"}
+              onLazyLoad={() => console.log("Loaded")}
+            />
+          </div>
+        ))}
+      </main>
+      <script
+        defer
+        data-domain="yourdomain.com"
+        src="https://plausible.io/js/script.js"
+      ></script>
+    </div>
   );
 }
