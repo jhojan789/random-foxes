@@ -35,7 +35,7 @@ export default function Home() {
 
     setImages([...images, newFox]);
 
-    window.plausible("Sign up");
+    window.plausible("add_fox", { props: { name: "foxy" } });
   };
 
   const printMessage = () => {
